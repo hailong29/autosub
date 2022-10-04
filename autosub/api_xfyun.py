@@ -136,7 +136,7 @@ class XfyunWebSocketAPI:  # pylint: disable=too-many-instance-attributes, too-ma
                 api_address=self.api_address),
             on_message=lambda web_socket, msg: self.on_message(web_socket, msg),
             on_error=lambda web_socket, msg: self.on_error(web_socket, msg),
-            on_close=lambda web_socket: self.on_close(web_socket),
+            on_close=self.on_close,
             on_open=lambda web_socket: self.on_open(web_socket))
         self.web_socket_app.run_forever(sslopt={"cert_reqs": ssl.CERT_NONE})
         if self.is_full_result:
@@ -165,7 +165,7 @@ class XfyunWebSocketAPI:  # pylint: disable=too-many-instance-attributes, too-ma
         """
         raise exceptions.SpeechToTextException(error)
 
-    def on_close(self, web_socket):  # pylint: disable=no-self-use, unused-argument
+    def on_close(self, *args):  # pylint: disable=no-self-use, unused-argument
         """
         Process the connection close from WebSocket.
         """
